@@ -7,9 +7,6 @@ Adapted by Corentin Smith from https://github.com/kriswiner/GY-80 by Kris Winer
 #ifndef GY80_h
 #define GY80_h
 
-#include "Config.h"
-#include "Utils.h"
-#include "Kalman.h"
 #include "I2CWrapper.h"
 
 // global constants for 9 DoF fusion and AHRS (Attitude and Heading Reference System)
@@ -74,36 +71,36 @@ public:
         uint8_t g = i2cReadOne(MAGNETO_ADDRESS, MAGNETO_IDC);
 
         if (c == 0xE5) {
-            DEBUG("ADXL345  is online...");
+            Serial.println("ADXL345  is online...");
         }
         if (d == 0xD3) {
-            DEBUG("L3G4200D is online...");
+            Serial.println("L3G4200D is online...");
         }
         if (e == 0x48 && f == 0x34 && g == 0x33) {
-            DEBUG("HMC5883L is online...");
+            Serial.println("HMC5883L is online...");
         }
         if (!(c == 0xE5 && d == 0xD3 && e == 0x48 && f == 0x34 && g == 0x33)) {
             while (1) {
-                DEBUG("ERROR");
-                DEBUG(c);
-                DEBUG(d);
-                DEBUG(e);
-                DEBUG(f);
-                DEBUG(g);
+                Serial.println("ERROR");
+                Serial.println(c);
+                Serial.println(d);
+                Serial.println(e);
+                Serial.println(f);
+                Serial.println(g);
             }
         }
     }
 
-    void getSensorValue() {
+    void getValues() {
         computeAngles();
 
         yaw -= zeroYaw;
         pitch -= zeroPitch;
         roll -= zeroRoll;
 
-        Serial.println("Yaw   " + yaw);
-        Serial.println("Pitch " + pitch);
-        Serial.println("Roll  " + roll);
+        Serial.println("Yaw   " + (String)yaw);
+        Serial.println("Pitch " + (String)pitch);
+        Serial.println("Roll  " + (String)roll);
     };
 
     void computeAngles()
