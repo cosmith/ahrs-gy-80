@@ -10,7 +10,7 @@ void i2cWrite(uint8_t address, uint8_t registerAddress, uint8_t data) {
     Wire.endTransmission();
 }
 
-uint8_t* i2cRead(uint8_t address, uint8_t registerAddress, uint8_t count, uint8_t * dest)
+void i2cRead(uint8_t address, uint8_t registerAddress, uint8_t count, uint8_t * dest)
 {
     Wire.beginTransmission(address);   // Initialize the Tx buffer
     Wire.write(registerAddress);       // Put slave register address in Tx buffer
